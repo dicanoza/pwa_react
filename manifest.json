@@ -1,6 +1,6 @@
 {
-    "name": "Weather",
-    "short_name": "Weather",
+    "name": "Github Cardboard",
+    "short_name": "Github Cardboard",
     "icons": [ {
         "src": "images/icons/github-144x144.png",
         "sizes": "144x144",
