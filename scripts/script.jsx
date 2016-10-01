@@ -10,9 +10,16 @@ var Card = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <img src={this.state.avatar_url} width="80"/>
-        <h3>{this.state.name}</h3>
+      <div className="card cardTemplate githubuser">
+        <div className="location">{this.state.name}</div>
+          <div className="current">
+            <div className="visual">
+              <div ><img className="icon" src={this.state.avatar_url} /></div>
+            </div>
+            <div className="description">
+              <div className="humidity">{this.state.bio}</div>
+            </div>
+        </div>
       </div>
     )
 
