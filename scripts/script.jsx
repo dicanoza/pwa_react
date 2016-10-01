@@ -7,11 +7,10 @@ var Card = React.createClass({
         $.get("https://api.github.com/users/" + this.props.login, function(data) {
             component.setState(data);
         }).fail(function(){
-          component.setState({name: 'not found user: ' + component.props.login});
+          component.setState({notFound: 'not found user: ' + component.props.login});
         });
     },
     handleClick: function() {
-      console.log(this.props.index);
         this.props.removeCard(this.props.index);
     },
     render: function() {
@@ -59,35 +58,24 @@ var Main = React.createClass({
         return ({users: []});
     },
     addCard: function(login) {
+      if(this.state.users.indexOf(login) < 0 ){
         this.setState({users: this.state.users.concat(login.toLowerCase())});
+      }
     },
-    deleteTask: function(e) {
+    removeCard: function(e) {
        var taskIndex = e;
-       console.log('remove task: %d', taskIndex, this.state.users[taskIndex]);
        this.setState(state => {
            state.users.splice(taskIndex, 1);
            return {users: state.users};
        });
    },
-   removeCard: function(login) {
-        var index = this.state.users.indexOf(login);
-        var newusers = this.state.users;
-        newusers.splice(0,1);
-        console.log('after: ' + newusers);
-        this.setState({users: newusers});
-        console.log(this.state.users);
-    },
-    onChange: function(e) {
-       this.setState({ user: e.target.value });
-   },
-    render: function() {
-        var removeCard = this.deleteTask;
+   render: function() {
+        var removeCard = this.removeCard;
 
         return (
             <div>
                 <Form addCard={this.addCard}/>
                 {this.state.users.map((user, index) => {
-                    console.log('rendering ' + user);
                     return <Card key={user} login={user} index={index} removeCard={removeCard}></Card>;
                 })
               }
@@ -96,5 +84,4 @@ var Main = React.createClass({
     }
 });
 
-ReactDOM.render(
-    <Main/>, document.getElementById("root"));
+ReactDOM.render(<Main/>, document.getElementById("root"));
