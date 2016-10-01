@@ -7,7 +7,7 @@ var Card = React.createClass({
         $.get("https://api.github.com/users/" + this.props.login, function(data) {
             component.setState(data);
         }).fail(function(){
-          component.setState({notFound: 'not found user: ' + component.props.login});
+          component.setState({name: 'user not found : ' + component.props.login});
         });
     },
     handleClick: function() {
@@ -55,7 +55,14 @@ var Form = React.createClass({
 
 var Main = React.createClass({
     getInitialState: function() {
-        return ({users: []});
+        var users = [];
+        if(localStorage.users){
+          users = JSON.parse(localStorage.users);
+        }
+        return ({users: users});
+    },
+    componentWillUpdate: function(nextProps,nextState){
+        localStorage.users = JSON.stringify(nextState.users);
     },
     addCard: function(login) {
       if(this.state.users.indexOf(login) < 0 ){
@@ -68,7 +75,7 @@ var Main = React.createClass({
            state.users.splice(taskIndex, 1);
            return {users: state.users};
        });
-   },
+    },
    render: function() {
         var removeCard = this.removeCard;
 
@@ -85,3 +92,18 @@ var Main = React.createClass({
 });
 
 ReactDOM.render(<Main/>, document.getElementById("root"));
+
+var saveUsers = function(users){
+  localStorage.users = users;
+}
+var loadUsers = function(){
+  return localStorage.users;
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+        .register('./service-worker.js')
+        .then(function() {
+            console.log('Service Worker Registered');
+        });
+}
