@@ -1,5 +1,5 @@
-var cacheName = 'weatherPWA-step-6-1-http://127.0.0.1:8887';
-var dataCacheName = 'weatherData-v1';
+var cacheName = 'githubuser-app-shell-v1';
+var dataCacheName = 'githubuser-v1';
 var filesToCache = [
     '',
     'index.html',
