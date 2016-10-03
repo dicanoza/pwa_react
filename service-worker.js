@@ -37,12 +37,14 @@ self.addEventListener('fetch', function(e) {
     var dataUrl = 'https://api.github.com/users/';
     if (e.request.url.indexOf(dataUrl) > -1) {
         e.respondWith(
-            caches.open(dataCacheName).then(function(cache) {
-                return fetch(e.request).then(function(response) {
+          caches.match(e.request).then(function(response) {
+              return response || fetch(e.request).then(function(response) {
+                  return caches.open(dataCacheName).then(function(cache){
                     cache.put(e.request.url, response.clone());
                     return response;
-                });
-            })
+                  })
+              })
+          })
         );
     } else {
         e.respondWith(
