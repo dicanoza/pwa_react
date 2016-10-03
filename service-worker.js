@@ -35,7 +35,7 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
     console.log('[Service Worker] Fetch', e.request.url);
     var dataUrl = 'https://api.github.com/users/';
-    if (e.request.url.indexOf(dataUrl) > -1) {
+    if (e.request.url.indexOf(dataUrl) >= -1) {
         e.respondWith(
           caches.match(e.request).then(function(response) {
               return response || fetch(e.request).then(function(response) {
